@@ -1,0 +1,16 @@
+{
+  "name": "anpr-backend",
+  "version": "1.0.0",
+  "description": "this is web interface or backend for detecting and storing number plate",
+  "license": "ISC",
+  "author": "Pranjal Kumar",
+  "type": "module",
+  "main": "index.js",
+  "scripts": {
+    "dev": "nodemon -r dotenv/config --experimental-json-modules src/index.js"
+  },
+  "dependencies": {
+    "dotenv": "^18.0.0",
+    "express": "^5.2.1"
+  }
+}
