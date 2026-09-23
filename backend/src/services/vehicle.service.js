@@ -1,5 +1,6 @@
 import { Vehicle } from "../models/vehicle.model";
 import { ApiError } from "../utils/ApiError.js";
+import { normalizePlate } from "../utils/normalizePlate.js";
 
 //register vehicle
 const createVehicle = async (vehicleData) => {
@@ -29,8 +30,10 @@ const createVehicle = async (vehicleData) => {
         );
     }
 
+    const normalizedPlate = normalizePlate(plateNumber);
+
     const existingVehicle = await Vehicle.findOne({
-        plateNumber: plateNumber.toUpperCase().trim(),
+        plateNumber: normalizedPlate,
     });
 
     if (existingVehicle) {
@@ -41,7 +44,7 @@ const createVehicle = async (vehicleData) => {
     }
 
     const vehicle = await Vehicle.create({
-        plateNumber,
+        plateNumber : normalizePlate,
         ownerName,
         phone,
         vehicleModel,
@@ -122,22 +125,23 @@ const getVehicleById = async (vehicleId) => {
 
 //find vehicle by number plate
 const findVehicleByPlate = async (plateNumber) => {
-    if (!plateNumber) {
+    const normalizedPlate = normalizePlate(plateNumber);
+
+    if (!normalizedPlate) {
         return null;
     }
 
-    const vehicle = await Vehicle.findOne({
-        plateNumber: plateNumber.trim().toUpperCase(),
+    return await Vehicle.findOne({
+        plateNumber: normalizedPlate,
     });
-
-    return vehicle;
 };
 
 //update vehicle
 const updateVehicle = async (vehicleId, updateData) => {
+    const normalizedPlate = normalizePlate(plateNumber);
     if (updateData.plateNumber) {
         updateData.plateNumber =
-            updateData.plateNumber.trim().toUpperCase();
+            updateData.normalizedPlate;
 
         const existingVehicle = await Vehicle.findOne({
             plateNumber: updateData.plateNumber,
