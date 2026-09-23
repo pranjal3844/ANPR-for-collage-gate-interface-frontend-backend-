@@ -4,6 +4,7 @@ import cookieParser from "cookie-parser"
 import { errorMiddleware } from "./middlewares/error.middleware.js";
 import authRoutes from "./routes/auth.routes.js";
 import vehicleRoutes from "./routes/vehicle.routes.js";
+import detectionRoutes from "./routes/detection.routes.js";
 
 const app = express()
 app.use(cors({
@@ -28,6 +29,7 @@ app.use(cookieParser());
 //routes
 app.use("/api/v1/auth", authRoutes);
 app.use("/api/v1/vehicles", vehicleRoutes);
+app.use("/api/v1/detections", detectionRoutes);
 
 //error middleware
 app.use(errorMiddleware);

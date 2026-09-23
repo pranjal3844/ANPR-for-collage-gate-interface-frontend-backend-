@@ -1,4 +1,4 @@
-import { Vehicle } from "../models/vehicle.model";
+import { Vehicle } from "../models/vehicle.model.js";
 import { ApiError } from "../utils/ApiError.js";
 import { normalizePlate } from "../utils/normalizePlate.js";
 
@@ -44,7 +44,7 @@ const createVehicle = async (vehicleData) => {
     }
 
     const vehicle = await Vehicle.create({
-        plateNumber : normalizePlate,
+        plateNumber : normalizedPlate,
         ownerName,
         phone,
         vehicleModel,
