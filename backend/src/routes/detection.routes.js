@@ -7,6 +7,8 @@ import {
 } from "../controllers/detection.controller.js";
 
 import { authMiddleware } from "../middlewares/auth.middleware.js";
+import { processVideo } from "../controllers/detection.controller.js";
+import { upload } from "../middlewares/upload.middleware.js";
 
 const router = Router();
 
@@ -29,6 +31,13 @@ router.get(
     "/:id",
     authMiddleware,
     getById
+);
+
+router.post(
+    "/process-video",
+    authMiddleware,
+    upload.single("video"),
+    processVideo
 );
 
 export default router;

@@ -6,6 +6,8 @@ import {
 
 import { asyncHandler } from "../utils/asyncHandler.js";
 import { ApiResponse } from "../utils/ApiResponse.js";
+import { processVideoWithML } from "../services/ml.service.js";
+import { ApiError } from "../utils/ApiError.js";
 
 
 const create = asyncHandler(async (req, res) => {
@@ -77,8 +79,29 @@ const getById = asyncHandler(async (req, res) => {
 });
 
 
+const processVideo = asyncHandler(async (req, res) => {
+
+    if (!req.file) {
+        throw new ApiError(400, "Video file is required");
+    }
+
+    const result = await processVideoWithML(req.file.path);
+
+    return res
+        .status(200)
+        .json(
+            new ApiResponse(
+                200,
+                result,
+                "Video sent to ML service successfully"
+            )
+        );
+});
+
+
 export {
     create,
     getAll,
-    getById
+    getById,
+    processVideo
 };
